@@ -6,7 +6,7 @@
   <a href="https://github.com/zalo/GLTFExporter/commits/master">
       <img src="https://img.shields.io/github/last-commit/zalo/GLTFExporter" title="Last Commit Date"></a>
   <!--<a href="https://github.com/zalo/GLTFExporter/blob/master/LICENSE">
-      <img src="https://img.shields.io/github/license/zalo/GLTFExporter" title="License: Apache V2"></a>-->
+      <img src="https://img.shields.io/github/license/zalo/GLTFExporter" title="License: Apache V2"></a> -->
 </p>
 
 Ultra-simple one-off tool for importing an .fbx, applying a texture to it, and exporting it as a .gltf.
