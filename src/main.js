@@ -215,12 +215,19 @@ async function loadTexture() {
 
   let map = new THREE.TextureLoader().load( fileURL );
   map.wrapS = map.wrapT = THREE.RepeatWrapping;
-  if        (file.handle.name.includes("normal"   )) {
+  if        (file.handle.name.toLowerCase().includes("normal"   )) {
     mainMaterial.normalMap = map;
-  } else if (file.handle.name.includes("specular" )) {
+  } else if (file.handle.name.toLowerCase().includes("specular" )) {
     mainMaterial.specularIntensityMap = map;
-  } else if (file.handle.name.includes("roughness")) {
+  } else if (file.handle.name.toLowerCase().includes("roughness")) {
     mainMaterial.roughnessMap = map;
+  } else if (file.handle.name.toLowerCase().includes("metalness") ||
+             file.handle.name.toLowerCase().includes("metallness")) {
+    mainMaterial.metalnessMap = map;
+  } else if (file.handle.name.toLowerCase().includes("ao")) {
+    mainMaterial.aoMap = map;
+  } else if (file.handle.name.toLowerCase().includes("color")) {
+    mainMaterial.map = map;
   } else {
     mainMaterial.map = map;
   }
