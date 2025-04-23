@@ -15,7 +15,8 @@ function exportGLTF( input ) {
     onlyVisible: params.onlyVisible,
     truncateDrawRange: params.truncateDrawRange,
     binary: params.binary,
-    maxTextureSize: params.maxTextureSize };
+    maxTextureSize: params.maxTextureSize,
+    animations: [input.animations[1]] };
   gltfExporter.parse(
     input,
     function ( result ) {
@@ -58,6 +59,10 @@ function saveArrayBuffer( buffer, filename ) {
 let container;
 
 let camera, scene1, renderer, gridHelper, file = {}, mainModel, mainMaterial = new THREE.MeshPhysicalMaterial();
+
+let clock = new THREE.Clock();
+
+let mixer;
 
 const params = {
   trs: true,
@@ -194,10 +199,18 @@ async function loadModel() {
       mainModel = model;
       console.log(mainModel);
       mainModel.traverse((child) => {
-        if (child.isMesh) {
-          child.material = mainMaterial;
-        }
+        //if (child.isMesh) {
+        //  child.material = mainMaterial;
+        //}
       });
+
+      if ( mainModel.animations && mainModel.animations.length ) {
+        mixer = new THREE.AnimationMixer( mainModel );
+        const action = mixer.clipAction( mainModel.animations[ 1 ] );
+        action.play();
+      } else {
+        mixer = null;
+      }
 
       scene1.add(mainModel);
     },
@@ -257,6 +270,9 @@ function animate() {
 
 function render() {
   const timer = Date.now() * 0.0001;
+
+  const delta = clock.getDelta();
+  if ( mixer ) { mixer.update( delta ); }
 
   camera.position.x = Math.cos( timer ) * 80;
   camera.position.z = Math.sin( timer ) * 80;
